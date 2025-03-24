@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.write("🔐 Secrets Loaded:")
-st.write("AZURE_OPENAI_KEY in secrets:", "AZURE_OPENAI_KEY" in st.secrets)
+st.write("AZURE_OPENAI_KEY in secrets:", "AZURE_OPENAI_API_KEY" in st.secrets)
 st.write("AZURE_OPENAI_ENDPOINT in secrets:", "AZURE_OPENAI_ENDPOINT" in st.secrets)
 st.write("AZURE_DEPLOYMENT_NAME in secrets:", "AZURE_DEPLOYMENT_NAME" in st.secrets)
 
