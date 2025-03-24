@@ -152,16 +152,16 @@ def generate_summary(name, starts, stops, continues):
     user_input = f"Person: {name}\nStart Comments: {starts}\nStop Comments: {stops}\nContinue Comments: {continues}"
     full_prompt = base_prompt + "\n\n" + user_input
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a professional leadership feedback analyst."},
-            {"role": "user", "content": full_prompt}
-        ],
-        temperature=0.7,
-        max_tokens=1500
-    )
-    return response.choices[0].message["content"]
+   response = openai.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a professional leadership feedback analyst."},
+        {"role": "user", "content": full_prompt}
+    ],
+    temperature=0.7,
+    max_tokens=1500
+)
+return response.choices[0].message.content
 
 st.set_page_config(page_title="Start-Stop-Continue Feedback Theming Tool", layout="wide")
 st.title("📄 Start-Stop-Continue Feedback Theming Tool")
