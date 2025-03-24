@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 from openai import AzureOpenAI
 from collections import defaultdict
+from io import BytesIO
 
 # Azure OpenAI credentials using new SDK (v1.x)
 client = AzureOpenAI(
