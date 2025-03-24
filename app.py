@@ -12,7 +12,7 @@ from collections import defaultdict
 
 # Azure OpenAI setup
 openai.api_type = "azure"
-openai.api_key = st.secrets["AZURE_OPENAI_KEY"]
+openai.api_key = st.secrets["AZURE_OPENAI_API_KEY"]
 openai.api_base = st.secrets["AZURE_OPENAI_ENDPOINT"]
 openai.api_version = "2024-08-01-preview"
 
