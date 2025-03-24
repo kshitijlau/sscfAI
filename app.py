@@ -3,8 +3,11 @@ import pandas as pd
 import openai
 from collections import defaultdict
 
-# Set your OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Azure OpenAI setup
+openai.api_type = "azure"
+openai.api_key = st.secrets["AZURE_OPENAI_KEY"]
+openai.api_base = st.secrets["AZURE_OPENAI_ENDPOINT"]
+openai.api_version = "2023-05-15"
 
 # Full enriched base prompt with updated instructions for 3 themes and 3 bullet points per theme
 base_prompt = """
@@ -79,14 +82,81 @@ EXCLUDE comments that:
 - Avoid attribution language ("Raters said…", "Feedback shows…")
 - Avoid direct quotes
 - Use concise, high-impact bullet points
+
+📌 Example:
+Person: Ravi Sharma
+
+Start Comments:
+- Should start sharing long-term vision more clearly with the team
+- Needs to be more vocal about strategic goals in cross-team meetings
+- Should take initiative in external stakeholder engagements
+- Could start hosting regular skip-level check-ins
+
+Stop Comments:
+- Should stop micromanaging tasks
+- Needs to stop stepping into day-to-day operational decisions
+- Sometimes interrupts in meetings; should stop doing that
+- Should avoid last-minute changes to plans
+
+Continue Comments:
+- Great at inspiring confidence in the team during uncertain times
+- Builds strong one-on-one relationships
+- Always calm and solution-oriented in challenging situations
+- Has a deep understanding of business drivers and priorities
+
+Expected Output:
+START 1: Strategic Communication
+- Clarify long-term vision across teams
+- Reinforce strategic messaging in cross-functional meetings
+- Establish consistent communication cadence
+
+START 2: Stakeholder Engagement
+- Build stronger connections with external stakeholders
+- Proactively represent the team in external forums
+- Seek feedback to align interests
+
+START 3: Team Visibility
+- Host regular skip-level check-ins
+- Improve upward and downward visibility
+- Encourage open dialogue across levels
+
+STOP 1: Micromanagement of Execution
+- Avoid over-involvement in day-to-day tasks
+- Trust team ownership and decision-making
+- Step back from tactical control
+
+STOP 2: Meeting Disruptions
+- Refrain from interrupting others
+- Allow space for open discussion
+- Listen actively before responding
+
+STOP 3: Last-Minute Changes
+- Reduce unplanned adjustments to plans
+- Provide early clarity on priorities
+- Avoid reactive decision shifts
+
+CONTINUE 1: Calm Leadership Presence
+- Remain composed during uncertainty
+- Instill confidence in the team
+- Provide steady leadership
+
+CONTINUE 2: Strong Relationships
+- Maintain strong one-on-one connections
+- Continue personalized team engagement
+- Foster a culture of approachability
+
+CONTINUE 3: Business Acumen
+- Align decisions with business priorities
+- Keep focus on strategic outcomes
+- Demonstrate commercial awareness
 """
 
 def generate_summary(name, starts, stops, continues):
     user_input = f"Person: {name}\nStart Comments: {starts}\nStop Comments: {stops}\nContinue Comments: {continues}"
     full_prompt = base_prompt + "\n\n" + user_input
 
-    response = openai.chat.completions.create(
-        model="gpt-4o",
+    response = openai.ChatCompletion.create(
+        engine=st.secrets["AZURE_DEPLOYMENT_NAME"],
         messages=[
             {"role": "system", "content": "You are a professional leadership feedback analyst."},
             {"role": "user", "content": full_prompt}
@@ -94,7 +164,7 @@ def generate_summary(name, starts, stops, continues):
         temperature=0.7,
         max_tokens=1500
     )
-    return response.choices[0].message.content
+    return response.choices[0].message["content"]
 
 st.set_page_config(page_title="Start-Stop-Continue Feedback Theming Tool", layout="wide")
 st.title("📄 Start-Stop-Continue Feedback Theming Tool")
@@ -135,5 +205,3 @@ if uploaded_file:
                 data=output_df.to_excel(index=False, engine="openpyxl"),
                 file_name="thematic_summaries.xlsx"
             )
-
-
