@@ -4,10 +4,13 @@ import openai
 from collections import defaultdict
 
 # Azure OpenAI setup
-openai.api_type = "azure"
-openai.api_key = st.secrets["AZURE_OPENAI_API_KEY"]
-openai.api_base = st.secrets["AZURE_OPENAI_ENDPOINT"]
-openai.api_version = "2024-08-01-preview"
+from openai import AzureOpenAI
+
+client = AzureOpenAI(
+    api_key=st.secrets["AZURE_OPENAI_API_KEY"],
+    api_version="2024-08-01-preview",
+    azure_endpoint=st.secrets["AZURE_OPENAI_ENDPOINT"]
+)
 
 # Full enriched base prompt with updated instructions for 3 themes and 3 bullet points per theme
 base_prompt = """
