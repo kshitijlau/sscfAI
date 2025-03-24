@@ -6,7 +6,7 @@ from collections import defaultdict
 
 # Azure OpenAI credentials using new SDK (v1.x)
 client = AzureOpenAI(
-    api_key=st.secrets["AZURE_OPENAI_KEY"],
+    api_key=st.secrets["AZURE_OPENAI_API_KEY"],
     api_version="2024-08-01-preview",
     azure_endpoint=st.secrets["AZURE_OPENAI_ENDPOINT"]
 )
