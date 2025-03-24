@@ -20,58 +20,73 @@ You are a seasoned organizational development strategist, skilled in synthesizin
 
 Generate a structured and polished thematic summary using the Start–Stop–Continue framework. Identify up to 3 unique themes under each category and rewrite the comments into concise, professional language that reflects a strategic tone, appropriate for high-profile leadership.
 
-Each theme should be given a short, professional heading followed by up to 3 bullet points. If there is insufficient data, leave blanks.
+Each theme should be given a short, professional heading (e.g., "Strategic Communication") followed by up to 3 bullet points that summarize feedback related to that theme. If there is insufficient data to generate 3 themes or 3 bullet points per theme, leave the missing themes or bullets blank.
 
 ⚠️ Important:
-Do NOT assume the comment category (Start, Stop, Continue) is accurate. Categorize based on actual content.
+Do NOT assume the comment category (Start, Stop, Continue) is accurate. Some comments may be miscategorized by raters. Instead, analyze the actual content of the comment to determine its correct category. Assign each comment to the correct category based on intent and behavioral context, not the label.
 
 📋 Output Format:
 START 1: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 START 2: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 START 3: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 STOP 1: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 STOP 2: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 STOP 3: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 CONTINUE 1: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 CONTINUE 2: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
 CONTINUE 3: <Theme Name>
-- Bullet
-- Bullet
-- Bullet
+- Bullet 1
+- Bullet 2
+- Bullet 3
 
-🖋️ Use professional tone. No quote formatting or references to "raters said".
+🧐 Comment Filtering Guidelines:
+INCLUDE comments that:
+- Focus on professional behaviors with strategic or organizational impact
+- Mention observable actions, leadership styles, communication, execution, or decision-making
+
+EXCLUDE comments that:
+- Are emotional, vague, or personal
+- Reference wellbeing, personality traits, lifestyle, or stress
+- Use unprofessional, irrelevant, or informal language
+
+🖍️ Language Rules:
+- Rewrite feedback into professional, elegant, action-oriented language
+- Use third-person perspective
+- Avoid attribution language ("Raters said…", "Feedback shows…")
+- Avoid direct quotes
+- Use concise, high-impact bullet points
 """
 
 # Generate summary for each person
@@ -125,15 +140,13 @@ if uploaded_file:
             st.success("🎉 Thematic summaries generated!")
             st.dataframe(output_df)
 
-          from io import BytesIO
+            buffer = BytesIO()
+            output_df.to_excel(buffer, index=False, engine="openpyxl")
+            buffer.seek(0)
 
-buffer = BytesIO()
-output_df.to_excel(buffer, index=False, engine="openpyxl")
-buffer.seek(0)
-
-st.download_button(
-    label="📦 Download Excel Output",
-    data=buffer,
-    file_name="thematic_summaries.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-)
+            st.download_button(
+                label="📦 Download Excel Output",
+                data=buffer,
+                file_name="thematic_summaries.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
