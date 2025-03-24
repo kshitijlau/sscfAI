@@ -86,7 +86,7 @@ def generate_summary(name, starts, stops, continues):
     full_prompt = base_prompt + "\n\n" + user_input
 
     response = openai.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are a professional leadership feedback analyst."},
             {"role": "user", "content": full_prompt}
