@@ -50,7 +50,7 @@ def generate_summary(name, starts, stops, continues):
 
 # Streamlit App
 st.set_page_config(page_title="Start-Stop-Continue Theme Generator", layout="wide")
-st.title("\ud83d\udcc4 Start-Stop-Continue Feedback Theming Tool")
+st.title("📄 Start-Stop-Continue Feedback Theming Tool")
 
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
