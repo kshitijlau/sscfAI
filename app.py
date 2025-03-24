@@ -7,7 +7,7 @@ from collections import defaultdict
 openai.api_type = "azure"
 openai.api_key = st.secrets["AZURE_OPENAI_KEY"]
 openai.api_base = st.secrets["AZURE_OPENAI_ENDPOINT"]
-openai.api_version = "2023-05-15"
+openai.api_version = "2024-08-01-preview"
 
 # Full enriched base prompt with updated instructions for 3 themes and 3 bullet points per theme
 base_prompt = """
