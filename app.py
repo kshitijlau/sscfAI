@@ -124,8 +124,15 @@ if uploaded_file:
             st.success("🎉 Thematic summaries generated!")
             st.dataframe(output_df)
 
-            st.download_button(
-                label="📦 Download Excel Output",
-                data=output_df.to_excel(index=False, engine="openpyxl"),
-                file_name="thematic_summaries.xlsx"
-            )
+          from io import BytesIO
+
+buffer = BytesIO()
+output_df.to_excel(buffer, index=False, engine="openpyxl")
+buffer.seek(0)
+
+st.download_button(
+    label="📦 Download Excel Output",
+    data=buffer,
+    file_name="thematic_summaries.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
